@@ -1,0 +1,110 @@
+[
+{"unit":"현대의 삶과 실천윤리","number":1,"type":"MC","question":"도덕적 담론에서 논리적 추론의 타당성 검증을 강조하는 윤리학은?","choices":["규범 윤리학","메타 윤리학","기술 윤리학","실천 윤리학"],"answer":1,"explanation":"도덕 언어와 판단의 논리 구조를 분석하는 것은 메타 윤리학이다."},
+
+{"unit":"현대의 삶과 실천윤리","number":2,"type":"MC","question":"도덕적 진술을 구성하는 도덕 언어의 의미 분석을 강조하는 것은?","choices":["규범 윤리학","메타 윤리학","기술 윤리학","응용 윤리학"],"answer":1,"explanation":"도덕 언어의 의미 분석은 메타 윤리학이다."},
+
+{"unit":"현대의 삶과 실천윤리","number":3,"type":"OX","question":"올바른 행위 지침을 제공하는 규범적 탐구는 규범 윤리학에 해당한다.","answer":"O","explanation":"규범 윤리학은 무엇을 해야 하는지 제시한다."},
+
+{"unit":"현대의 삶과 실천윤리","number":4,"type":"OX","question":"도덕적 문제의 발생을 인과적으로 설명하는 것은 메타 윤리학이다.","answer":"X","explanation":"인과적 설명은 기술 윤리학이다."},
+
+{"unit":"현대의 삶과 실천윤리","number":5,"type":"FILL","question":"윤리학의 학문적 성립 가능성에 대한 비판적 검토는 (      ) 윤리학이다.","answer":"메타","explanation":"도덕 판단의 의미와 타당성을 검토한다."},
+
+{"unit":"현대의 삶과 실천윤리","number":6,"type":"OX","question":"칸트는 의무에 합치하는 행위도 도덕적이라고 본다.","answer":"X","explanation":"의무에서 비롯된 행위만 도덕적이다."},
+
+{"unit":"현대의 삶과 실천윤리","number":7,"type":"OX","question":"칸트는 가능한 행위 중 의무로부터 비롯된 행위를 선택해야 한다고 보았다.","answer":"O","explanation":"선의지는 의무에서 비롯된다."},
+
+{"unit":"현대의 삶과 실천윤리","number":8,"type":"MC","question":"매킨타이어에 대한 설명으로 옳은 것은?","choices":["덕은 선천적이다","공동체 전통과 서사가 중요하다","보편 원칙이 우선이다","결과 중심 윤리이다"],"answer":1,"explanation":"덕은 공동체 전통 속에서 형성된다."},
+
+{"unit":"현대의 삶과 실천윤리","number":9,"type":"OX","question":"매킨타이어는 도덕 판단에서 행위 자체보다 행위자를 중시한다.","answer":"O","explanation":"덕 윤리는 행위자의 성품을 강조한다."},
+
+{"unit":"현대의 삶과 실천윤리","number":10,"type":"MC","question":"행위의 결과를 기준으로 도덕성을 판단하는 이론은?","choices":["의무론","공리주의","덕 윤리","자연법"],"answer":1,"explanation":"결과 중심."},
+
+{"unit":"현대의 삶과 실천윤리","number":11,"type":"OX","question":"덕 윤리는 행위자의 성품을 중시한다.","answer":"O","explanation":"행위자 중심."},
+
+{"unit":"현대의 삶과 실천윤리","number":12,"type":"FILL","question":"최대 다수의 최대 행복은 (      )의 원리이다.","answer":"공리주의","explanation":"벤담과 밀."},
+
+{"unit":"현대의 삶과 실천윤리","number":13,"type":"OX","question":"칸트는 결과보다 동기를 중시한다.","answer":"O","explanation":"의무에서 비롯된 행위."},
+
+{"unit":"현대의 삶과 실천윤리","number":14,"type":"MC","question":"의무론의 대표 사상가는?","choices":["벤담","밀","칸트","노직"],"answer":2,"explanation":"정언 명령."},
+
+{"unit":"현대의 삶과 실천윤리","number":15,"type":"OX","question":"공리주의는 행위의 동기를 판단 기준으로 삼는다.","answer":"X","explanation":"결과 중심."},
+
+{"unit":"문화와 윤리","number":1,"type":"OX","question":"유가는 서의 실천을 통해 인을 이룰 수 있다고 본다.","answer":"O","explanation":"충서 사상."},
+
+{"unit":"문화와 윤리","number":2,"type":"OX","question":"도가에서는 인의 강조가 사회 혼란의 원인이 될 수 있다고 본다.","answer":"O","explanation":"무위자연을 강조한다."},
+
+{"unit":"문화와 윤리","number":3,"type":"OX","question":"불교는 영원한 실체의 존재를 인정한다.","answer":"X","explanation":"제행무상, 무아 사상."},
+
+{"unit":"문화와 윤리","number":4,"type":"FILL","question":"도가는 꾀와 욕심을 버리고 (      )의 정치를 지향한다.","answer":"무위","explanation":"무위자연의 통치."},
+
+{"unit":"문화와 윤리","number":5,"type":"MC","question":"공자가 강조한 핵심 덕목은?","choices":["법","인의예지","무위","공리"],"answer":1,"explanation":"인의예지."},
+
+{"unit":"문화와 윤리","number":6,"type":"OX","question":"맹자는 성선설을 주장하였다.","answer":"O","explanation":"인간 본성은 선하다."},
+
+{"unit":"문화와 윤리","number":7,"type":"OX","question":"순자는 인간 본성을 선하다고 보았다.","answer":"X","explanation":"성악설."},
+
+{"unit":"문화와 윤리","number":8,"type":"FILL","question":"맹자의 사단설에서 측은지심은 (      )의 단서이다.","answer":"인","explanation":"인의 단서."},
+
+{"unit":"문화와 윤리","number":9,"type":"MC","question":"순자가 예(禮)를 강조한 이유는?","choices":["자연 질서 존중","본성의 선함 유지","욕망 교정","무위 실천"],"answer":2,"explanation":"성악설에 따라 욕망을 교정해야 한다."},
+
+{"unit":"문화와 윤리","number":10,"type":"OX","question":"도가에서는 인위적 규범보다 자연스러움을 중시한다.","answer":"O","explanation":"무위자연."},
+
+{"unit":"문화와 윤리","number":11,"type":"MC","question":"장자가 강조한 삶의 태도는?","choices":["법치","무위자연","공리","의무"],"answer":1,"explanation":"자연에 따르는 삶."},
+
+{"unit":"문화와 윤리","number":12,"type":"OX","question":"불교는 모든 존재가 상호 의존한다고 본다.","answer":"O","explanation":"연기설."},
+
+{"unit":"문화와 윤리","number":13,"type":"MC","question":"불교에서 고통의 원인으로 보는 것은?","choices":["무지와 집착","법","의무","권력"],"answer":0,"explanation":"탐진치."}
+,
+{"unit":"생명과 윤리","number":1,"type":"OX","question":"테일러는 생명체 개체의 내재적 가치를 인정한다.","answer":"O","explanation":"개체 중심 생명중심주의."},
+
+{"unit":"생명과 윤리","number":2,"type":"MC","question":"레오폴드의 대지 윤리에서 도덕 공동체에 포함되는 것은?","choices":["인간만","이성적 존재만","생명 공동체 전체","동물만"],"answer":2,"explanation":"흙, 물, 식물, 동물을 포함한 공동체 전체."},
+
+{"unit":"생명과 윤리","number":3,"type":"OX","question":"칸트는 동물에 대해 직접적 의무를 지닌다고 본다.","answer":"X","explanation":"동물에 대한 의무는 간접적 의무이다."},
+
+{"unit":"생명과 윤리","number":4,"type":"FILL","question":"싱어는 도덕적 고려 기준을 (        ) 능력에 둔다.","answer":"쾌고 감수","explanation":"고통을 느낄 수 있는 능력."},
+
+{"unit":"생명과 윤리","number":5,"type":"OX","question":"레건은 동물을 삶의 주체로 보고 권리를 인정한다.","answer":"O","explanation":"의무론적 동물권."},
+
+{"unit":"생명과 윤리","number":6,"type":"MC","question":"인간 중심주의의 특징은?","choices":["자연의 내재적 가치 인정","인간 이익 우선","생명 평등","종 차별 반대"],"answer":1,"explanation":"자연을 도구로 본다."},
+
+{"unit":"생명과 윤리","number":7,"type":"OX","question":"레오폴드는 토지를 도덕 공동체 구성원으로 본다.","answer":"O","explanation":"대지 윤리."},
+
+{"unit":"생명과 윤리","number":8,"type":"MC","question":"슈바이처의 사상은 무엇을 강조하는가?","choices":["종 차별","생명 경외","공리주의","대지 윤리"],"answer":1,"explanation":"생명 경외 사상."},
+
+{"unit":"사회와 윤리","number":1,"type":"OX","question":"롤스의 무지의 베일은 공정한 합의를 위한 가상적 장치이다.","answer":"O","explanation":"자신의 사회적 지위를 모르는 상태."},
+
+{"unit":"사회와 윤리","number":2,"type":"OX","question":"노직은 재분배를 통한 복지 국가를 지지한다.","answer":"X","explanation":"최소 국가 주장."},
+
+{"unit":"사회와 윤리","number":3,"type":"MC","question":"롤스의 차등의 원칙은 무엇을 전제로 하는가?","choices":["능력 우선","평등 분배","최소 수혜자 이익","결과 최대화"],"answer":2,"explanation":"최소 수혜자의 최대 이익."},
+
+{"unit":"사회와 윤리","number":4,"type":"OX","question":"노직은 자연적 재능과 그로부터 나온 소득 모두 개인의 소유라고 본다.","answer":"O","explanation":"역사적 권리론."},
+
+{"unit":"사회와 윤리","number":5,"type":"MC","question":"롤스의 제1원칙은 무엇인가?","choices":["평등한 자유","차등의 원칙","공정 기회","재산 분배"],"answer":0,"explanation":"평등한 기본 자유."},
+
+{"unit":"사회와 윤리","number":6,"type":"MC","question":"노직의 정의론은 무엇에 기반하는가?","choices":["결과 평등","역사적 권리","능력 분배","공정 절차 무시"],"answer":1,"explanation":"취득과 이전의 정당성."},
+
+{"unit":"사회와 윤리","number":7,"type":"OX","question":"칸트는 형벌을 범죄에 대한 응보로 본다.","answer":"O","explanation":"응보주의."},
+
+{"unit":"사회와 윤리","number":8,"type":"MC","question":"형벌의 목적을 범죄 억제에 두는 입장은?","choices":["응보주의","공리주의","자연법","덕 윤리"],"answer":1,"explanation":"예방 중심."},
+
+{"unit":"사회와 윤리","number":9,"type":"OX","question":"로크는 저항권을 인정한다.","answer":"O","explanation":"정부가 자연권 침해 시 가능."},
+
+{"unit":"사회와 윤리","number":10,"type":"MC","question":"홉스가 자연 상태를 묘사한 표현은?","choices":["만인의 만인에 대한 투쟁","자유와 평등","도덕적 조화","평화 공동체"],"answer":0,"explanation":"자연 상태는 전쟁 상태."},
+
+{"unit":"과학과 윤리","number":1,"type":"OX","question":"요나스는 미래 세대의 생존 가능성을 희생해도 된다고 보았다.","answer":"X","explanation":"미래 세대 책임 강조."},
+
+{"unit":"과학과 윤리","number":2,"type":"MC","question":"요나스 책임 윤리의 핵심은?","choices":["현재 세대 중심","기술 낙관","미래 세대 책임","자연 정복"],"answer":2,"explanation":"미래 생존 가능성 보호."},
+
+{"unit":"과학과 윤리","number":3,"type":"OX","question":"요나스는 행위의 장기적 결과를 고려해야 한다고 보았다.","answer":"O","explanation":"책임의 확대."},
+
+{"unit":"평화와 공존의 윤리","number":1,"type":"OX","question":"칸트는 영구 평화를 위해 세계 정부를 주장했다.","answer":"X","explanation":"자유 국가 연맹 주장."},
+
+{"unit":"평화와 공존의 윤리","number":2,"type":"MC","question":"갈퉁의 적극적 평화는 무엇을 의미하는가?","choices":["전쟁 없음","직접 폭력 제거","구조적 폭력 제거 포함","군비 축소"],"answer":2,"explanation":"구조적 폭력까지 제거."},
+
+{"unit":"평화와 공존의 윤리","number":3,"type":"OX","question":"현실주의는 국제 정치를 권력 투쟁으로 본다.","answer":"O","explanation":"모겐소 입장."},
+
+{"unit":"평화와 공존의 윤리","number":4,"type":"MC","question":"싱어의 원조 기준은 무엇인가?","choices":["국익 우선","문화 보존","고통 최소화","시장 확대"],"answer":2,"explanation":"공리주의."},
+
+{"unit":"평화와 공존의 윤리","number":5,"type":"OX","question":"통일 비용은 장기적 투자 성격을 가진다.","answer":"O","explanation":"미래 편익."}
+]
+
