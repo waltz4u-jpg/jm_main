@@ -15,7 +15,7 @@ body{
   color:white;
 }
 .card{
-  background: rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.07);
   backdrop-filter: blur(14px);
 }
 .correct{ background:#065f46 !important; }
@@ -25,9 +25,9 @@ body{
 
 <body class="flex justify-center items-start min-h-screen pt-10">
 
-<!-- 상단 홈 버튼 -->
+<!-- 상단 홈 -->
 <div class="fixed top-5 right-5 z-50">
-<button onclick="goMainHome()" class="bg-slate-800 px-4 py-2 rounded-full shadow-lg text-sm">
+<button onclick="goMainHome()" class="bg-slate-800 px-4 py-2 rounded-full shadow text-sm">
 🏠 홈
 </button>
 </div>
@@ -38,7 +38,11 @@ body{
 <div id="unitScreen" class="card p-6 rounded-2xl shadow-xl text-center">
 <h1 class="text-xl font-bold mb-6">생활과 윤리</h1>
 
-<div class="grid gap-3 text-sm">
+<p id="loadingText" class="text-xs text-teal-200 mb-4">
+문제 로딩 중...
+</p>
+
+<div class="grid gap-3 text-sm opacity-40 pointer-events-none" id="unitButtons">
 <button onclick="startUnit('현대의 삶과 실천윤리')" class="bg-emerald-600 p-3 rounded-xl">1. 현대의 삶과 실천윤리</button>
 <button onclick="startUnit('생명과 윤리')" class="bg-teal-600 p-3 rounded-xl">2. 생명과 윤리</button>
 <button onclick="startUnit('사회와 윤리')" class="bg-cyan-600 p-3 rounded-xl">3. 사회와 윤리</button>
@@ -54,7 +58,6 @@ body{
 
 <!-- 문제 화면 -->
 <div id="quizScreen" class="hidden card p-6 rounded-2xl shadow-xl">
-
 <div class="flex justify-between text-xs mb-3 opacity-70">
 <span id="unitTitle"></span>
 <span id="progress"></span>
@@ -69,7 +72,6 @@ body{
 <button id="nextBtn" onclick="nextQuestion()" class="hidden mt-4 w-full bg-emerald-600 p-2 rounded-xl">
 다음 문제 →
 </button>
-
 </div>
 
 <!-- 오답노트 -->
@@ -87,24 +89,41 @@ let currentUnit = "";
 let currentSet = [];
 let currentIndex = 0;
 let wrongNotes = JSON.parse(localStorage.getItem("et_wrong")) || {};
+let dataLoaded = false;
 
+// 🔥 JSON 로딩
 fetch("./problems.json")
-.then(res=>res.json())
-.then(data=>{
+.then(res => res.json())
+.then(data => {
   allProblems = data;
+  dataLoaded = true;
+
+  document.getElementById("loadingText").innerText = "단원을 선택하세요";
+  document.getElementById("unitButtons").classList.remove("opacity-40","pointer-events-none");
+})
+.catch(err=>{
+  document.getElementById("loadingText").innerText = "문제 로드 실패 (problems.json 확인)";
+  console.error(err);
 });
 
 function startUnit(unit){
+  if(!dataLoaded){
+    alert("아직 문제 로딩 중입니다.");
+    return;
+  }
+
   currentUnit = unit;
   generateRandomSet();
+
   document.getElementById("unitScreen").classList.add("hidden");
   document.getElementById("quizScreen").classList.remove("hidden");
+
   showQuestion();
 }
 
 function generateRandomSet(){
   let filtered = allProblems.filter(p=>p.unit===currentUnit);
-  let shuffled = filtered.sort(()=>0.5-Math.random());
+  let shuffled = [...filtered].sort(()=>0.5-Math.random());
   currentSet = shuffled.slice(0,5);
   currentIndex = 0;
 }
@@ -121,53 +140,50 @@ function showQuestion(){
   document.getElementById("feedback").innerText="";
   document.getElementById("nextBtn").classList.add("hidden");
 
-  // OX
   if(p.type==="OX"){
     ["O","X"].forEach(c=>{
       let btn=document.createElement("button");
       btn.innerText=c;
       btn.className="w-full bg-slate-700 p-2 rounded-xl";
-      btn.onclick=()=>checkAnswer(c,btn);
+      btn.onclick=()=>checkAnswer(c);
       choicesDiv.appendChild(btn);
     });
   }
 
-  // 객관식
   else if(p.type==="MC"){
     p.choices.forEach((c,i)=>{
       let btn=document.createElement("button");
       btn.innerText=c;
       btn.className="w-full bg-slate-700 p-2 rounded-xl text-left";
-      btn.onclick=()=>checkAnswer(i,btn);
+      btn.onclick=()=>checkAnswer(i);
       choicesDiv.appendChild(btn);
     });
   }
 
-  // 🔥 입력형 문제 복구
   else if(p.type==="FILL"){
     let input=document.createElement("input");
     input.className="w-full p-3 rounded text-black";
-    input.placeholder="정답을 입력하세요";
+    input.placeholder="정답 입력";
 
     input.addEventListener("keypress",function(e){
       if(e.key==="Enter"){
-        checkAnswer(input.value,input);
+        checkAnswer(input.value);
       }
     });
 
     let btn=document.createElement("button");
     btn.innerText="확인";
     btn.className="w-full bg-emerald-600 p-2 rounded-xl mt-3";
-    btn.onclick=()=>checkAnswer(input.value,input);
+    btn.onclick=()=>checkAnswer(input.value);
 
     choicesDiv.appendChild(input);
     choicesDiv.appendChild(btn);
   }
 }
 
-function checkAnswer(choice,element){
+function checkAnswer(choice){
   let p = currentSet[currentIndex];
-  let isCorrect = (choice.toString().trim()===p.answer.toString());
+  let isCorrect = choice.toString().trim()===p.answer.toString();
 
   if(isCorrect){
     document.getElementById("feedback").innerText="정답입니다 👍";
@@ -177,4 +193,62 @@ function checkAnswer(choice,element){
     if(!wrongNotes[currentUnit]) wrongNotes[currentUnit]=[];
     if(!wrongNotes[currentUnit].includes(p.number)){
       wrongNotes[currentUnit].push(p.number);
-      localStorage.setItem("et_wrong",JSON_
+      localStorage.setItem("et_wrong",JSON.stringify(wrongNotes));
+    }
+  }
+
+  document.getElementById("nextBtn").classList.remove("hidden");
+}
+
+function nextQuestion(){
+  currentIndex++;
+  if(currentIndex>=5){
+    showRoundEnd();
+    return;
+  }
+  showQuestion();
+}
+
+function showRoundEnd(){
+  document.getElementById("question").innerText="5문제를 모두 풀었습니다 👍";
+  document.getElementById("choices").innerHTML="";
+  document.getElementById("feedback").innerHTML=
+  `<div class="underline cursor-pointer" onclick="showWrongNotes()">
+   오답노트에서 복습하기
+   </div>`;
+  document.getElementById("nextBtn").classList.add("hidden");
+}
+
+function showWrongNotes(){
+  document.getElementById("quizScreen").classList.add("hidden");
+  document.getElementById("unitScreen").classList.add("hidden");
+  document.getElementById("wrongScreen").classList.remove("hidden");
+
+  let div=document.getElementById("wrongList");
+  div.innerHTML="";
+
+  for(let unit in wrongNotes){
+    wrongNotes[unit].forEach(num=>{
+      let problem = allProblems.find(p=>p.number==num && p.unit==unit);
+      if(problem){
+        div.innerHTML+=`
+        <div class="p-4 bg-slate-800 rounded-xl">
+          <div class="text-xs text-teal-300 mb-1">${unit} ${problem.number}번</div>
+          <div class="mb-2">${problem.question}</div>
+          <div class="text-emerald-400">정답: ${problem.answer}</div>
+          <div class="text-gray-300 mt-1">${problem.explanation}</div>
+        </div>
+        `;
+      }
+    });
+  }
+}
+
+function goMainHome(){
+  window.location.href="index.html";
+}
+
+</script>
+
+</body>
+</html>
