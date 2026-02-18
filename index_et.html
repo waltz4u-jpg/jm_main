@@ -18,18 +18,23 @@ body{
   background: rgba(255,255,255,0.06);
   backdrop-filter: blur(12px);
 }
-button{
-  transition:0.2s;
-}
-button:active{
-  transform:scale(0.96);
-}
 .correct{ background:#065f46 !important; }
 .wrong{ background:#7f1d1d !important; }
+.home-icon{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#0f172a;
+  padding:14px;
+  border-radius:50%;
+  box-shadow:0 6px 20px rgba(0,0,0,0.4);
+  cursor:pointer;
+}
 </style>
 </head>
 
-<body class="flex justify-center items-center min-h-screen">
+<body class="flex justify-center items-start min-h-screen pt-8">
 
 <div class="w-full max-w-md p-4">
 
@@ -45,6 +50,10 @@ button:active{
 <button onclick="startUnit('문화와 윤리')" class="bg-blue-600 p-3 rounded-xl">5. 문화와 윤리</button>
 <button onclick="startUnit('평화와 공존의 윤리')" class="bg-indigo-600 p-3 rounded-xl">6. 평화와 공존의 윤리</button>
 </div>
+
+<button onclick="showWrongNotes()" class="mt-6 text-sm underline">
+오답노트 보기
+</button>
 
 </div>
 
@@ -69,21 +78,16 @@ button:active{
 </div>
 
 <!-- 오답노트 화면 -->
-<div id="wrongScreen" class="hidden card p-6 rounded-2xl shadow-xl">
-<h2 class="font-bold mb-4">오답노트</h2>
-<div id="wrongList" class="text-sm space-y-2"></div>
-
-<div class="flex justify-between mt-6 gap-3">
-<button onclick="goMainHome()" class="w-1/2 bg-slate-800 p-2 rounded-xl">
-홈
-</button>
-<button onclick="goSubHome()" class="w-1/2 bg-slate-600 p-2 rounded-xl">
-생활과 윤리 홈
-</button>
+<div id="wrongScreen" class="hidden card p-6 rounded-2xl shadow-xl overflow-y-auto max-h-[75vh]">
+<h2 class="font-bold mb-4">📘 오답노트</h2>
+<div id="wrongList" class="space-y-6 text-sm"></div>
 </div>
 
 </div>
 
+<!-- 전체 홈 아이콘 -->
+<div class="home-icon" onclick="goMainHome()">
+🏠
 </div>
 
 <script>
@@ -170,53 +174,47 @@ function checkAnswer(choice,btn){
 
 function nextQuestion(){
   currentIndex++;
-
   if(currentIndex>=5){
     showRoundEnd();
     return;
   }
-
   showQuestion();
 }
 
 function showRoundEnd(){
   document.getElementById("question").innerText="5문제를 모두 풀었습니다 👍";
   document.getElementById("choices").innerHTML="";
-
   document.getElementById("feedback").innerHTML=`
-  <div class="mb-4 text-sm underline cursor-pointer" onclick="showWrongNotes()">
-  오답노트 보기 (틀린 문제 해설 다시 보기)
-  </div>
-
-  <div class="flex gap-3">
-    <button onclick="goMainHome()" class="w-1/2 bg-slate-800 p-2 rounded-xl">
-    홈
-    </button>
-    <button onclick="goSubHome()" class="w-1/2 bg-slate-600 p-2 rounded-xl">
-    생활과 윤리 홈
-    </button>
+  <div class="underline cursor-pointer" onclick="showWrongNotes()">
+  오답노트에서 틀린 문제 복습하기
   </div>
   `;
-
   document.getElementById("nextBtn").classList.add("hidden");
 }
 
 function showWrongNotes(){
   document.getElementById("quizScreen").classList.add("hidden");
+  document.getElementById("unitScreen").classList.add("hidden");
   document.getElementById("wrongScreen").classList.remove("hidden");
 
   let div=document.getElementById("wrongList");
   div.innerHTML="";
 
   for(let unit in wrongNotes){
-    div.innerHTML+=`<div><b>${unit}</b> : ${wrongNotes[unit].join(", ")}번</div>`;
+    wrongNotes[unit].forEach(num=>{
+      let problem = allProblems.find(p=>p.number==num && p.unit==unit);
+      if(problem){
+        div.innerHTML+=`
+        <div class="p-4 bg-slate-800 rounded-xl">
+          <div class="text-xs text-teal-300 mb-1">${unit} ${problem.number}번</div>
+          <div class="mb-2">${problem.question}</div>
+          <div class="text-emerald-400">정답: ${problem.answer}</div>
+          <div class="text-gray-300 mt-1">${problem.explanation}</div>
+        </div>
+        `;
+      }
+    });
   }
-}
-
-function goSubHome(){
-  document.getElementById("quizScreen").classList.add("hidden");
-  document.getElementById("wrongScreen").classList.add("hidden");
-  document.getElementById("unitScreen").classList.remove("hidden");
 }
 
 function goMainHome(){
