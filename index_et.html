@@ -16,25 +16,21 @@ body{
 }
 .card{
   background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
 }
 .correct{ background:#065f46 !important; }
 .wrong{ background:#7f1d1d !important; }
-.home-icon{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#0f172a;
-  padding:14px;
-  border-radius:50%;
-  box-shadow:0 6px 20px rgba(0,0,0,0.4);
-  cursor:pointer;
-}
 </style>
 </head>
 
-<body class="flex justify-center items-start min-h-screen pt-8">
+<body class="flex justify-center items-start min-h-screen pt-10">
+
+<!-- 상단 홈 버튼 -->
+<div class="fixed top-5 right-5 z-50">
+<button onclick="goMainHome()" class="bg-slate-800 px-4 py-2 rounded-full shadow-lg text-sm">
+🏠 홈
+</button>
+</div>
 
 <div class="w-full max-w-md p-4">
 
@@ -54,7 +50,6 @@ body{
 <button onclick="showWrongNotes()" class="mt-6 text-sm underline">
 오답노트 보기
 </button>
-
 </div>
 
 <!-- 문제 화면 -->
@@ -77,17 +72,12 @@ body{
 
 </div>
 
-<!-- 오답노트 화면 -->
+<!-- 오답노트 -->
 <div id="wrongScreen" class="hidden card p-6 rounded-2xl shadow-xl overflow-y-auto max-h-[75vh]">
 <h2 class="font-bold mb-4">📘 오답노트</h2>
 <div id="wrongList" class="space-y-6 text-sm"></div>
 </div>
 
-</div>
-
-<!-- 전체 홈 아이콘 -->
-<div class="home-icon" onclick="goMainHome()">
-🏠
 </div>
 
 <script>
@@ -131,6 +121,7 @@ function showQuestion(){
   document.getElementById("feedback").innerText="";
   document.getElementById("nextBtn").classList.add("hidden");
 
+  // OX
   if(p.type==="OX"){
     ["O","X"].forEach(c=>{
       let btn=document.createElement("button");
@@ -140,6 +131,8 @@ function showQuestion(){
       choicesDiv.appendChild(btn);
     });
   }
+
+  // 객관식
   else if(p.type==="MC"){
     p.choices.forEach((c,i)=>{
       let btn=document.createElement("button");
@@ -149,79 +142,39 @@ function showQuestion(){
       choicesDiv.appendChild(btn);
     });
   }
+
+  // 🔥 입력형 문제 복구
+  else if(p.type==="FILL"){
+    let input=document.createElement("input");
+    input.className="w-full p-3 rounded text-black";
+    input.placeholder="정답을 입력하세요";
+
+    input.addEventListener("keypress",function(e){
+      if(e.key==="Enter"){
+        checkAnswer(input.value,input);
+      }
+    });
+
+    let btn=document.createElement("button");
+    btn.innerText="확인";
+    btn.className="w-full bg-emerald-600 p-2 rounded-xl mt-3";
+    btn.onclick=()=>checkAnswer(input.value,input);
+
+    choicesDiv.appendChild(input);
+    choicesDiv.appendChild(btn);
+  }
 }
 
-function checkAnswer(choice,btn){
+function checkAnswer(choice,element){
   let p = currentSet[currentIndex];
   let isCorrect = (choice.toString().trim()===p.answer.toString());
 
   if(isCorrect){
-    btn.classList.add("correct");
     document.getElementById("feedback").innerText="정답입니다 👍";
   }else{
-    btn.classList.add("wrong");
     document.getElementById("feedback").innerText="해설: "+p.explanation;
 
     if(!wrongNotes[currentUnit]) wrongNotes[currentUnit]=[];
     if(!wrongNotes[currentUnit].includes(p.number)){
       wrongNotes[currentUnit].push(p.number);
-      localStorage.setItem("et_wrong",JSON.stringify(wrongNotes));
-    }
-  }
-
-  document.getElementById("nextBtn").classList.remove("hidden");
-}
-
-function nextQuestion(){
-  currentIndex++;
-  if(currentIndex>=5){
-    showRoundEnd();
-    return;
-  }
-  showQuestion();
-}
-
-function showRoundEnd(){
-  document.getElementById("question").innerText="5문제를 모두 풀었습니다 👍";
-  document.getElementById("choices").innerHTML="";
-  document.getElementById("feedback").innerHTML=`
-  <div class="underline cursor-pointer" onclick="showWrongNotes()">
-  오답노트에서 틀린 문제 복습하기
-  </div>
-  `;
-  document.getElementById("nextBtn").classList.add("hidden");
-}
-
-function showWrongNotes(){
-  document.getElementById("quizScreen").classList.add("hidden");
-  document.getElementById("unitScreen").classList.add("hidden");
-  document.getElementById("wrongScreen").classList.remove("hidden");
-
-  let div=document.getElementById("wrongList");
-  div.innerHTML="";
-
-  for(let unit in wrongNotes){
-    wrongNotes[unit].forEach(num=>{
-      let problem = allProblems.find(p=>p.number==num && p.unit==unit);
-      if(problem){
-        div.innerHTML+=`
-        <div class="p-4 bg-slate-800 rounded-xl">
-          <div class="text-xs text-teal-300 mb-1">${unit} ${problem.number}번</div>
-          <div class="mb-2">${problem.question}</div>
-          <div class="text-emerald-400">정답: ${problem.answer}</div>
-          <div class="text-gray-300 mt-1">${problem.explanation}</div>
-        </div>
-        `;
-      }
-    });
-  }
-}
-
-function goMainHome(){
-  window.location.href="index.html";
-}
-
-</script>
-
-</body>
-</html>
+      localStorage.setItem("et_wrong",JSON_
