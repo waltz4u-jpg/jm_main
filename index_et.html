@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>생활과 윤리</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body{
+  font-family: 'Pretendard', sans-serif;
+  background: linear-gradient(135deg,#0f172a,#134e4a);
+  color:white;
+}
+.card{
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+}
+button{
+  transition:0.2s;
+}
+button:active{
+  transform:scale(0.96);
+}
+.correct{
+  background:#065f46 !important;
+}
+.wrong{
+  background:#7f1d1d !important;
+}
+</style>
+</head>
+<body class="flex justify-center items-center min-h-screen">
+
+<div class="w-full max-w-md p-4">
+
+<!-- 단원 선택 -->
+<div id="unitScreen" class="card p-6 rounded-2xl shadow-xl text-center">
+<h1 class="text-xl font-bold mb-6">생활과 윤리</h1>
+
+<div class="grid grid-cols-2 gap-3 text-sm">
+<button onclick="startUnit('현대의 삶과 실천윤리')" class="bg-emerald-600 p-3 rounded-xl">현대의 삶과 실천윤리</button>
+<button onclick="startUnit('생명과 윤리')" class="bg-teal-600 p-3 rounded-xl">생명과 윤리</button>
+<button onclick="startUnit('사회와 윤리')" class="bg-cyan-600 p-3 rounded-xl">사회와 윤리</button>
+<button onclick="startUnit('과학과 윤리')" class="bg-sky-600 p-3 rounded-xl">과학과 윤리</button>
+<button onclick="startUnit('문화와 윤리')" class="bg-blue-600 p-3 rounded-xl">문화와 윤리</button>
+<button onclick="startUnit('평화와 공존의 윤리')" class="bg-indigo-600 p-3 rounded-xl">평화와 공존의 윤리</button>
+</div>
+
+<button onclick="showWrongNotes()" class="mt-6 text-sm underline">오답노트 보기</button>
+</div>
+
+<!-- 문제 화면 -->
+<div id="quizScreen" class="hidden card p-6 rounded-2xl shadow-xl">
+
+<div class="flex justify-between text-xs mb-3 opacity-70">
+<span id="unitTitle"></span>
+<span id="progress"></span>
+</div>
+
+<h2 id="question" class="mb-6 text-base font-semibold"></h2>
+
+<div id="choices" class="space-y-3"></div>
+
+<p id="feedback" class="mt-4 text-sm"></p>
+
+<button id="nextBtn" onclick="nextQuestion()" class="hidden mt-4 w-full bg-emerald-600 p-2 rounded-xl">
+다음 문제 →
+</button>
+
+</div>
+
+<!-- 오답노트 -->
+<div id="wrongScreen" class="hidden card p-6 rounded-2xl shadow-xl">
+<h2 class="font-bold mb-4">오답노트</h2>
+<div id="wrongList" class="text-sm space-y-2"></div>
+<button onclick="backToUnit()" class="mt-4 w-full bg-slate-600 p-2 rounded-xl">돌아가기</button>
+</div>
+
+</div>
+
+<script>
+
+let allProblems = [];
+let currentUnit = "";
+let filtered = [];
+let index = 0;
+let wrongNotes = JSON.parse(localStorage.getItem("et_wrong")) || {};
+
+fetch("problems.json")
+.then(res=>res.json())
+.then(data=>{
+  allProblems = data;
+});
+
+function startUnit(unit){
+  currentUnit = unit;
+  filtered = allProblems.filter(p=>p.unit===unit)
+  filtered.sort((a,b)=>a.number-b.number)
+
+  let savedIndex = localStorage.getItem("progress_"+unit);
+  index = savedIndex ? parseInt(savedIndex) : 0;
+
+  document.getElementById("unitScreen").classList.add("hidden");
+  document.getElementById("quizScreen").classList.remove("hidden");
+
+  showQuestion();
+}
+
+function showQuestion(){
+  let p = filtered[index];
+
+  document.getElementById("unitTitle").innerText = currentUnit;
+  document.getElementById("progress").innerText = p.number + "번";
+
+  document.getElementById("question").innerText = p.question;
+
+  let choicesDiv = document.getElementById("choices");
+  choicesDiv.innerHTML="";
+  document.getElementById("feedback").innerText="";
+  document.getElementById("nextBtn").classList.add("hidden");
+
+  if(p.type==="OX"){
+    ["O","X"].forEach(c=>{
+      let btn=document.createElement("button");
+      btn.innerText=c;
+      btn.className="w-full bg-slate-700 p-2 rounded-xl";
+      btn.onclick=()=>checkAnswer(c,btn);
+      choicesDiv.appendChild(btn);
+    });
+  }
+  else if(p.type==="MC"){
+    p.choices.forEach((c,i)=>{
+      let btn=document.createElement("button");
+      btn.innerText=c;
+      btn.className="w-full bg-slate-700 p-2 rounded-xl text-left";
+      btn.onclick=()=>checkAnswer(i,btn);
+      choicesDiv.appendChild(btn);
+    });
+  }
+  else{
+    let input=document.createElement("input");
+    input.className="w-full p-2 rounded text-black";
+    choicesDiv.appendChild(input);
+
+    let btn=document.createElement("button");
+    btn.innerText="확인";
+    btn.className="w-full bg-emerald-600 p-2 rounded-xl";
+    btn.onclick=()=>checkAnswer(input.value,btn);
+    choicesDiv.appendChild(btn);
+  }
+}
+
+function checkAnswer(choice,btn){
+  let p = filtered[index];
+  let correct = p.answer;
+
+  let isCorrect = (choice.toString().trim()===correct.toString());
+
+  if(isCorrect){
+    btn.classList.add("correct");
+    document.getElementById("feedback").innerText="정답입니다! 👍";
+  }else{
+    btn.classList.add("wrong");
+    document.getElementById("feedback").innerText="틀렸습니다. 해설: "+p.explanation;
+
+    if(!wrongNotes[currentUnit]) wrongNotes[currentUnit]=[];
+    if(!wrongNotes[currentUnit].includes(p.number)){
+      wrongNotes[currentUnit].push(p.number);
+      localStorage.setItem("et_wrong",JSON.stringify(wrongNotes));
+    }
+  }
+
+  document.getElementById("nextBtn").classList.remove("hidden");
+}
+
+function nextQuestion(){
+  index++;
+  if(index>=filtered.length) index=0;
+
+  localStorage.setItem("progress_"+currentUnit,index);
+  showQuestion();
+}
+
+function showWrongNotes(){
+  document.getElementById("unitScreen").classList.add("hidden");
+  document.getElementById("wrongScreen").classList.remove("hidden");
+
+  let div=document.getElementById("wrongList");
+  div.innerHTML="";
+
+  for(let unit in wrongNotes){
+    div.innerHTML+=`<div><b>${unit}</b> : ${wrongNotes[unit].join(", ")}번</div>`;
+  }
+}
+
+function backToUnit(){
+  document.getElementById("wrongScreen").classList.add("hidden");
+  document.getElementById("unitScreen").classList.remove("hidden");
+}
+
+</script>
+
+</body>
+</html>
