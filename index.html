@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>지민이 학습 포털</title>
+
+<link href="https://fonts.googleapis.com/css2?family=SUIT:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+  font-family: 'SUIT', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #134e4a, #0ea5a4);
+}
+.card-hover {
+  transition: all 0.25s ease;
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+}
+.fade-in {
+  animation: fadeIn 0.8s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity:0; transform: translateY(15px); }
+  to { opacity:1; transform: translateY(0); }
+}
+</style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center text-white">
+
+<div class="w-full max-w-4xl p-8 fade-in">
+
+  <!-- 타이틀 -->
+  <div class="text-center mb-14">
+    <h1 class="text-4xl font-bold tracking-tight mb-4">
+      지민이 학습 포털
+    </h1>
+    <p class="text-teal-200 text-sm">
+      오늘도 차분하게, 한 걸음 성장하기
+    </p>
+  </div>
+
+  <!-- 메뉴 카드 영역 -->
+  <div class="grid md:grid-cols-2 gap-8">
+
+    <!-- 생활과 윤리 -->
+    <a href="index_et.html"
+       class="card-hover bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
+      <h2 class="text-2xl font-semibold mb-3 text-teal-200">
+        생활과 윤리
+      </h2>
+      <p class="text-sm text-gray-200">
+        랜덤 실전 문제 풀이
+      </p>
+    </a>
+
+    <!-- 국어 -->
+    <a href="index_kr.html"
+       class="card-hover bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
+      <h2 class="text-2xl font-semibold mb-3 text-cyan-200">
+        국어 어휘 학습
+      </h2>
+      <p class="text-sm text-gray-200">
+        수능 필수 어휘 점검
+      </p>
+    </a>
+
+    <!-- 영어 -->
+    <a href="index_en.html"
+       class="card-hover bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
+      <h2 class="text-2xl font-semibold mb-3 text-sky-200">
+        영어 단어 암기
+      </h2>
+      <p class="text-sm text-gray-200">
+        매일 20단어 챌린지
+      </p>
+    </a>
+
+    <!-- 미술 -->
+    <a href="index_art.html"
+       class="card-hover bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
+      <h2 class="text-2xl font-semibold mb-3 text-emerald-200">
+        미술 실기력 키우기
+      </h2>
+      <p class="text-sm text-gray-200">
+        관찰력 · 표현력 · 구도 훈련
+      </p>
+    </a>
+
+  </div>
+
+  <!-- 하단 메시지 -->
+  <div class="text-center mt-14 text-xs text-teal-100">
+    © 지민이 전용 학습 시스템
+  </div>
+
+</div>
+
+</body>
+</html>
