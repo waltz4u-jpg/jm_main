@@ -24,12 +24,8 @@ button{
 button:active{
   transform:scale(0.96);
 }
-.correct{
-  background:#065f46 !important;
-}
-.wrong{
-  background:#7f1d1d !important;
-}
+.correct{ background:#065f46 !important; }
+.wrong{ background:#7f1d1d !important; }
 </style>
 </head>
 
@@ -37,11 +33,11 @@ button:active{
 
 <div class="w-full max-w-md p-4">
 
-<!-- 단원 선택 화면 -->
+<!-- 단원 선택 -->
 <div id="unitScreen" class="card p-6 rounded-2xl shadow-xl text-center">
 <h1 class="text-xl font-bold mb-6">생활과 윤리</h1>
 
-<div class="grid grid-cols-1 gap-3 text-sm">
+<div class="grid gap-3 text-sm">
 <button onclick="startUnit('현대의 삶과 실천윤리')" class="bg-emerald-600 p-3 rounded-xl">1. 현대의 삶과 실천윤리</button>
 <button onclick="startUnit('생명과 윤리')" class="bg-teal-600 p-3 rounded-xl">2. 생명과 윤리</button>
 <button onclick="startUnit('사회와 윤리')" class="bg-cyan-600 p-3 rounded-xl">3. 사회와 윤리</button>
@@ -49,13 +45,6 @@ button:active{
 <button onclick="startUnit('문화와 윤리')" class="bg-blue-600 p-3 rounded-xl">5. 문화와 윤리</button>
 <button onclick="startUnit('평화와 공존의 윤리')" class="bg-indigo-600 p-3 rounded-xl">6. 평화와 공존의 윤리</button>
 </div>
-
-<button onclick="showWrongNotes()" class="mt-6 text-sm underline">오답노트 보기</button>
-
-<!-- 🔹 전체 홈 버튼 -->
-<button onclick="goMainHome()" class="mt-3 text-xs text-teal-200 underline">
-← 전체 홈으로
-</button>
 
 </div>
 
@@ -79,18 +68,20 @@ button:active{
 
 </div>
 
-<!-- 오답노트 -->
+<!-- 오답노트 화면 -->
 <div id="wrongScreen" class="hidden card p-6 rounded-2xl shadow-xl">
 <h2 class="font-bold mb-4">오답노트</h2>
 <div id="wrongList" class="text-sm space-y-2"></div>
 
-<button onclick="backToUnit()" class="mt-4 w-full bg-slate-600 p-2 rounded-xl">
+<div class="flex justify-between mt-6 gap-3">
+<button onclick="goMainHome()" class="w-1/2 bg-slate-800 p-2 rounded-xl">
+홈
+</button>
+<button onclick="goSubHome()" class="w-1/2 bg-slate-600 p-2 rounded-xl">
 생활과 윤리 홈
 </button>
+</div>
 
-<button onclick="goMainHome()" class="mt-3 w-full bg-slate-800 p-2 rounded-xl">
-전체 홈으로
-</button>
 </div>
 
 </div>
@@ -101,25 +92,19 @@ let allProblems = [];
 let currentUnit = "";
 let currentSet = [];
 let currentIndex = 0;
-
 let wrongNotes = JSON.parse(localStorage.getItem("et_wrong")) || {};
 
 fetch("./problems.json")
 .then(res=>res.json())
 .then(data=>{
   allProblems = data;
-})
-.catch(err=>{
-  console.error("문제 로드 실패:",err);
 });
 
 function startUnit(unit){
   currentUnit = unit;
   generateRandomSet();
-
   document.getElementById("unitScreen").classList.add("hidden");
   document.getElementById("quizScreen").classList.remove("hidden");
-
   showQuestion();
 }
 
@@ -135,7 +120,6 @@ function showQuestion(){
 
   document.getElementById("unitTitle").innerText = currentUnit;
   document.getElementById("progress").innerText = (currentIndex+1)+" / 5";
-
   document.getElementById("question").innerText = p.question;
 
   let choicesDiv = document.getElementById("choices");
@@ -165,9 +149,7 @@ function showQuestion(){
 
 function checkAnswer(choice,btn){
   let p = currentSet[currentIndex];
-  let correct = p.answer;
-
-  let isCorrect = (choice.toString().trim()===correct.toString());
+  let isCorrect = (choice.toString().trim()===p.answer.toString());
 
   if(isCorrect){
     btn.classList.add("correct");
@@ -198,38 +180,29 @@ function nextQuestion(){
 }
 
 function showRoundEnd(){
-  document.getElementById("question").innerText = "5문제를 모두 풀었습니다 👍";
-  document.getElementById("choices").innerHTML = `
-    <button onclick="restartRound()" class="w-full bg-emerald-600 p-2 rounded-xl mb-3">
-      문제 더 풀기
+  document.getElementById("question").innerText="5문제를 모두 풀었습니다 👍";
+  document.getElementById("choices").innerHTML="";
+
+  document.getElementById("feedback").innerHTML=`
+  <div class="mb-4 text-sm underline cursor-pointer" onclick="showWrongNotes()">
+  오답노트 보기 (틀린 문제 해설 다시 보기)
+  </div>
+
+  <div class="flex gap-3">
+    <button onclick="goMainHome()" class="w-1/2 bg-slate-800 p-2 rounded-xl">
+    홈
     </button>
-    <button onclick="goSubHome()" class="w-full bg-slate-600 p-2 rounded-xl mb-3">
-      생활과 윤리 홈
+    <button onclick="goSubHome()" class="w-1/2 bg-slate-600 p-2 rounded-xl">
+    생활과 윤리 홈
     </button>
-    <button onclick="goMainHome()" class="w-full bg-slate-800 p-2 rounded-xl">
-      전체 홈으로
-    </button>
+  </div>
   `;
-  document.getElementById("feedback").innerText="";
+
   document.getElementById("nextBtn").classList.add("hidden");
 }
 
-function restartRound(){
-  generateRandomSet();
-  showQuestion();
-}
-
-function goSubHome(){
-  document.getElementById("quizScreen").classList.add("hidden");
-  document.getElementById("unitScreen").classList.remove("hidden");
-}
-
-function goMainHome(){
-  window.location.href="index.html";
-}
-
 function showWrongNotes(){
-  document.getElementById("unitScreen").classList.add("hidden");
+  document.getElementById("quizScreen").classList.add("hidden");
   document.getElementById("wrongScreen").classList.remove("hidden");
 
   let div=document.getElementById("wrongList");
@@ -240,9 +213,14 @@ function showWrongNotes(){
   }
 }
 
-function backToUnit(){
+function goSubHome(){
+  document.getElementById("quizScreen").classList.add("hidden");
   document.getElementById("wrongScreen").classList.add("hidden");
   document.getElementById("unitScreen").classList.remove("hidden");
+}
+
+function goMainHome(){
+  window.location.href="index.html";
 }
 
 </script>
